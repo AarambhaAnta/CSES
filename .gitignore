@@ -1,9 +1,20 @@
-.cph/
-.bin
-**/*.o
-**/*.out
-**/*.exe
-**/*.gch
-**/*dSYM/
-*.
-*
+# Ignore macOS-specific files
+.DS_Store
+
+# Ignore compiled C++ files
+*.o
+*.out
+*.a
+*.so
+*.dylib
+*.exe
+
+# Ignore build directories
+/build/
+
+# Ignore everything except .cpp files
+introductory_problems/*
+!introductory_problems/*.cpp
+
+# Ignore .cph file
+.cph
