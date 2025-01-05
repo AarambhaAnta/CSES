@@ -1,2 +1,5 @@
 .cph/
 .bin
+*.o
+*.out
+*.exe
