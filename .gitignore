@@ -1,8 +1,8 @@
 .cph/
 .bin
-*.o
-*.out
-*.exe
-*.gch
-*dSYM/
+**/*.o
+**/*.out
+**/*.exe
+**/*.gch
+**/*dSYM/
 *.
