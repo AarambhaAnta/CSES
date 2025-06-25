@@ -1,20 +1,112 @@
-# Ignore macOS-specific files
-.DS_Store
+# IDE and Editor files
+.vscode/
+.cph/
 
-# Ignore compiled C++ files
-*.o
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiled files and executables
+*.exe
 *.out
-*.a
+*.app
+*.o
+*.obj
+*.class
+*.pyc
+*.pyo
+__pycache__/
 *.so
 *.dylib
-*.exe
+*.dll
 
-# Ignore build directories
-/build/
+# C/C++ compiled files
+a.out
+*.bin
+main
+solution
+temp
+test
 
-# Ignore everything except .cpp files
-introductory_problems/*
-!introductory_problems/*.cpp
+# Executable files without extensions (compiled from .cpp files)
+# Match any file that has a corresponding .cpp file
+*
+!*/
+!*.cpp
+!*.h
+!*.hpp
+!*.py
+!*.java
+!*.rs
+!*.go
+!*.js
+!*.ts
+!*.md
+!*.txt
+!*.json
+!*.yml
+!*.yaml
+!*.xml
+!*.cfg
+!*.conf
+!*.ini
+!*.sh
+!*.bat
+!.gitignore
+!Makefile
+!README*
+!LICENSE*
+!*.in
+!*.out
 
-# Ignore .cph file
-.cph
+# Java compiled files
+*.jar
+*.war
+*.ear
+
+# Python compiled files
+*.py[cod]
+*$py.class
+*.pyd
+*.pyo
+dist/
+build/
+*.egg-info/
+
+# Rust compiled files
+target/
+Cargo.lock
+
+# Go compiled files
+*.test
+*.prof
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*.swo
+*~
+
+# Input/Output test files (optional - uncomment if you want to ignore these)
+# *.in
+# *.out
+# input.txt
+# output.txt
+
+# Competitive programming specific
+*.ans
+*.res
