@@ -14,6 +14,8 @@ help:
 	@echo "  compile FILE=<filename>  - Compile a specific C++ file"
 	@echo "  debug FILE=<filename>    - Compile with debug flags"
 	@echo "  run FILE=<filename>      - Compile and run a specific file"
+	@echo "  format FILE=<filename>   - Format a specific C++ file using clang-format"
+	@echo "  format-all              - Format all C++ files in the repository"
 	@echo "  clean                    - Remove all compiled files"
 	@echo "  clean-logs              - Remove all log files"
 	@echo "  clean-all               - Remove all compiled files, logs, and temp files"
@@ -21,6 +23,8 @@ help:
 	@echo "Examples:"
 	@echo "  make compile FILE=introductory_problems/weird_algorithm.cpp"
 	@echo "  make run FILE=sorting_and_searching/distinct_numbers.cpp"
+	@echo "  make format FILE=Dynamic-Programming/Dice_Combinations.cpp"
+	@echo "  make format-all"
 	@echo "  make clean"
 
 # Compile a specific file
@@ -60,6 +64,42 @@ run:
 	@$(MAKE) compile FILE=$(FILE)
 	@echo "Running $(basename $(FILE))..."
 	@./$(basename $(FILE))
+
+# Format a specific file
+format:
+	@if [ -z "$(FILE)" ]; then \
+		echo "Error: Please specify a file. Usage: make format FILE=<filename>"; \
+		exit 1; \
+	fi
+	@if [ ! -f "$(FILE)" ]; then \
+		echo "Error: File $(FILE) not found"; \
+		exit 1; \
+	fi
+	@if ! command -v clang-format >/dev/null 2>&1; then \
+		echo "Error: clang-format not found. Please install clang-format"; \
+		exit 1; \
+	fi
+	@if [ ! -f ".clang-format" ]; then \
+		echo "Error: .clang-format file not found in the repository"; \
+		exit 1; \
+	fi
+	@echo "Formatting $(FILE)..."
+	@clang-format -i "$(FILE)"
+	@echo "File formatted successfully: $(FILE)"
+
+# Format all C++ files
+format-all:
+	@if ! command -v clang-format >/dev/null 2>&1; then \
+		echo "Error: clang-format not found. Please install clang-format"; \
+		exit 1; \
+	fi
+	@if [ ! -f ".clang-format" ]; then \
+		echo "Error: .clang-format file not found in the repository"; \
+		exit 1; \
+	fi
+	@echo "Formatting all C++ files..."
+	@find . -name "*.cpp" -not -path "./.git/*" -exec clang-format -i {} \;
+	@echo "All C++ files formatted successfully!"
 
 # Clean compiled files
 clean:
@@ -133,4 +173,4 @@ force-clean:
 	@find . -name ".DS_Store" -delete 2>/dev/null || true
 	@echo "Force clean completed!"
 
-.PHONY: help compile debug run clean clean-logs clean-all force-clean
+.PHONY: help compile debug run format format-all clean clean-logs clean-all force-clean
