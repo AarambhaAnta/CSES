@@ -130,9 +130,9 @@ void generate(int i, int j) {
         } else if (l2 > l1) {
             generate(i, j + 1);
         } else {
-            if(a[i]<b[j]){
+            if (a[i] < b[j]) {
                 generate(i, j + 1);
-            }else{
+            } else {
                 generate(i + 1, j);
             }
         }

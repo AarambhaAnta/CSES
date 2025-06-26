@@ -107,7 +107,7 @@ void test() {
     vin(prices);
     vin(pages);
 
-    vi dp(x + 1,0);
+    vi dp(x + 1, 0);
     for (int i = 0; i < n; i++) {
         for (int p = x; p >= prices[i]; p--) {
             dp[p] = max(dp[p], dp[p - prices[i]] + pages[i]);

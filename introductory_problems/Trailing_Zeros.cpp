@@ -5,25 +5,21 @@
 #define ll long long
 using namespace std;
 
-void solve()
-{
-  int n;
-  cin >> n;
-  int ans = 0;
-  while (n)
-  {
-    ans += n / 5;
-    n /= 5;
-  }
-  cout << ans << '\n';
+void solve() {
+    int n;
+    cin >> n;
+    int ans = 0;
+    while (n) {
+        ans += n / 5;
+        n /= 5;
+    }
+    cout << ans << '\n';
 }
-int main()
-{
-  int t = 1;
-  // cin>>t;
-  while (t--)
-  {
-    solve();
-  }
-  return 0;
+int main() {
+    int t = 1;
+    // cin>>t;
+    while (t--) {
+        solve();
+    }
+    return 0;
 }
