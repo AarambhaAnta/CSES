@@ -106,34 +106,57 @@ const int maxn = 1e5 + 5;
 int n, m;
 vi g[maxn];
 int dis[maxn], parent[maxn], indeg[maxn];
-
 void khans_algo() {
+    vi topo;
+    topo.reserve(n);
     queue<int> q;
-    q.push(1);
-    dis[1] = 1;
+    for (int i = 1; i <= n; i++) {
+        if (indeg[i] == 0)
+            q.push(i);
+    }
 
     while (!q.empty()) {
         int u = q.front();
         q.pop();
-
+        topo.pb(u);
         for (int v : g[u]) {
-            indeg[v]--;
-            if (indeg[v] == 0)
+            if (--indeg[v] == 0) {
                 q.push(v);
+            }
+        }
+    }
 
+    fill(dis, dis + n + 1, -INF);
+    fill(parent, parent + n + 1, -1);
+    dis[1] = 1;
+    for (auto u : topo) {
+        if (dis[u] == -INF)
+            continue;
+        for (auto v : g[u]) {
             if (dis[v] < dis[u] + 1) {
                 dis[v] = dis[u] + 1;
                 parent[v] = u;
             }
         }
     }
+
+    if (dis[n] == -INF) {
+        cout << "IMPOSSIBLE" << nl;
+        return;
+    }
+
+    vi path;
+    for (int cur = n; cur != -1; cur = parent[cur]) {
+        path.pb(cur);
+    }
+    reverse(all(path));
+
+    cout << path.size() << nl;
+    vout(path);
 }
 void test() {
     // your solution for each testcase
     cin >> n >> m;
-
-    fill(dis, dis + n + 1, 0);
-    fill(parent, parent + n + 1, -1);
     fill(indeg, indeg + n + 1, 0);
 
     for (int i = 0; i < m; i++) {
@@ -144,27 +167,6 @@ void test() {
     }
 
     khans_algo();
-
-    if (dis[n] == 0) {
-        cout << "IMPOSSIBLE" << nl;
-        return;
-    }
-
-    vi path;
-    int cur = n;
-    while (cur != -1) {
-        path.pb(cur);
-        cur = parent[cur];
-    }
-
-    if (path.back() != 1) {
-        cout << "IMPOSSIBLE" << nl;
-        return;
-    }
-
-    reverse(all(path));
-    cout << path.size() << nl;
-    vout(path);
 }
 
 //======================================== Driver Code ========================================//
