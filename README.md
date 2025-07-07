@@ -57,7 +57,6 @@ The CSES Problem Set is a collection of algorithmic programming problems designe
 - [Longest Common Subsequence](https://cses.fi/problemset/task/1143) - [`Dynamic-Programming/Longest_Common_Subsequence.cpp`](Dynamic-Programming/Longest_Common_Subsequence.cpp)
 - [Increasing Subsequence II](https://cses.fi/problemset/task/1146) - [`Dynamic-Programming/Increasing_Subsequence_II.cpp`](Dynamic-Programming/Increasing_Subsequence_II.cpp)
 - [Mountain Range](https://cses.fi/problemset/task/1141) - [`Dynamic-Programming/Mountain_Range.cpp`](Dynamic-Programming/Mountain_Range.cpp)
-- [Minimal Grid Path](https://cses.fi/problemset/task/1639) - [`Dynamic-Programming/Minimal_Grid_Path.cpp`](Dynamic-Programming/Minimal_Grid_Path.cpp)
 
 ### Graph Algorithms
 
@@ -104,7 +103,7 @@ g++ -o solution Dynamic-Programming/Dice_Combinations.cpp
 ## Progress
 
 - 🟢 **Introductory Problems**: 3/19 solved
-- 🟢 **Dynamic Programming**: 22/19 solved
+- 🟢 **Dynamic Programming**: 21/19 solved
 - 🔴 **Sorting and Searching**: 0/35 solved
 - � **Graph Algorithms**: 11/36 solved
 - 🔴 **Range Queries**: 0/19 solved
