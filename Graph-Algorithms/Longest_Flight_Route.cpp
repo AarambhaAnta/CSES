@@ -145,7 +145,7 @@ void test() {
 
     khans_algo();
 
-    if(dis[n]==0){
+    if (dis[n] == 0) {
         cout << "IMPOSSIBLE" << nl;
         return;
     }
@@ -157,7 +157,7 @@ void test() {
         cur = parent[cur];
     }
 
-    if(path.back()!=1){
+    if (path.back() != 1) {
         cout << "IMPOSSIBLE" << nl;
         return;
     }
