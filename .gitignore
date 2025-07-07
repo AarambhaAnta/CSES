@@ -1,5 +1,6 @@
 # IDE and Editor files
 .vscode/
+**/.vscode/
 .cph/
 
 # macOS system files
