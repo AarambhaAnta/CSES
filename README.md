@@ -22,6 +22,7 @@ The CSES Problem Set is a collection of algorithmic programming problems designe
 ```text
 ├── introductory_problems/    # Basic problems to get started
 ├── Dynamic-Programming/      # DP problems and solutions
+├── Graph-Algorithms/         # Graph algorithm problems and solutions
 └── ...                      # More categories as I progress
 ```
 
@@ -58,6 +59,20 @@ The CSES Problem Set is a collection of algorithmic programming problems designe
 - [Mountain Range](https://cses.fi/problemset/task/1141) - [`Dynamic-Programming/Mountain_Range.cpp`](Dynamic-Programming/Mountain_Range.cpp)
 - [Minimal Grid Path](https://cses.fi/problemset/task/1639) - [`Dynamic-Programming/Minimal_Grid_Path.cpp`](Dynamic-Programming/Minimal_Grid_Path.cpp)
 
+### Graph Algorithms
+
+- [Counting Rooms](https://cses.fi/problemset/task/1192) - [`Graph-Algorithms/Counting_Rooms.cpp`](Graph-Algorithms/Counting_Rooms.cpp)
+- [Labyrinth](https://cses.fi/problemset/task/1193) - [`Graph-Algorithms/Labyrinth.cpp`](Graph-Algorithms/Labyrinth.cpp)
+- [Building Roads](https://cses.fi/problemset/task/1666) - [`Graph-Algorithms/Building_Roads.cpp`](Graph-Algorithms/Building_Roads.cpp)
+- [Message Route](https://cses.fi/problemset/task/1667) - [`Graph-Algorithms/Message_Route.cpp`](Graph-Algorithms/Message_Route.cpp)
+- [Building Teams](https://cses.fi/problemset/task/1668) - [`Graph-Algorithms/Building_Teams.cpp`](Graph-Algorithms/Building_Teams.cpp)
+- [Round Trip](https://cses.fi/problemset/task/1669) - [`Graph-Algorithms/Round_Trip.cpp`](Graph-Algorithms/Round_Trip.cpp)
+- [Monsters](https://cses.fi/problemset/task/1194) - [`Graph-Algorithms/Monsters.cpp`](Graph-Algorithms/Monsters.cpp)
+- [Shortest Routes I](https://cses.fi/problemset/task/1671) - [`Graph-Algorithms/Shortest_Routes_I.cpp`](Graph-Algorithms/Shortest_Routes_I.cpp)
+- [Shortest Routes II](https://cses.fi/problemset/task/1672) - [`Graph-Algorithms/Shortest_Routes_II.cpp`](Graph-Algorithms/Shortest_Routes_II.cpp)
+- [High Score](https://cses.fi/problemset/task/1673) - [`Graph-Algorithms/High_Score.cpp`](Graph-Algorithms/High_Score.cpp)
+- [Flight Discount](https://cses.fi/problemset/task/1195) - [`Graph-Algorithms/Flight_Discount.cpp`](Graph-Algorithms/Flight_Discount.cpp)
+
 ## How to Build and Run
 
 This repository includes a comprehensive Makefile for easy compilation, formatting, and running of solutions:
@@ -91,7 +106,7 @@ g++ -o solution Dynamic-Programming/Dice_Combinations.cpp
 - 🟢 **Introductory Problems**: 3/19 solved
 - 🟢 **Dynamic Programming**: 22/19 solved
 - 🔴 **Sorting and Searching**: 0/35 solved
-- 🔴 **Graph Algorithms**: 0/36 solved
+- � **Graph Algorithms**: 11/36 solved
 - 🔴 **Range Queries**: 0/19 solved
 - 🔴 **Tree Algorithms**: 0/16 solved
 
