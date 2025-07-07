@@ -115,6 +115,10 @@ void khans_algo() {
             q.push(i);
     }
 
+    fill(dis, dis + n + 1, -INF);
+    fill(parent, parent + n + 1, -1);
+    dis[1] = 1;
+
     while (!q.empty()) {
         int u = q.front();
         q.pop();
@@ -123,36 +127,12 @@ void khans_algo() {
             if (--indeg[v] == 0) {
                 q.push(v);
             }
-        }
-    }
-
-    fill(dis, dis + n + 1, -INF);
-    fill(parent, parent + n + 1, -1);
-    dis[1] = 1;
-    for (auto u : topo) {
-        if (dis[u] == -INF)
-            continue;
-        for (auto v : g[u]) {
-            if (dis[v] < dis[u] + 1) {
+            if (dis[u] != -INF && dis[v] < dis[u] + 1) {
                 dis[v] = dis[u] + 1;
                 parent[v] = u;
             }
         }
     }
-
-    if (dis[n] == -INF) {
-        cout << "IMPOSSIBLE" << nl;
-        return;
-    }
-
-    vi path;
-    for (int cur = n; cur != -1; cur = parent[cur]) {
-        path.pb(cur);
-    }
-    reverse(all(path));
-
-    cout << path.size() << nl;
-    vout(path);
 }
 void test() {
     // your solution for each testcase
@@ -167,6 +147,21 @@ void test() {
     }
 
     khans_algo();
+
+
+    if (dis[n] == -INF) {
+        cout << "IMPOSSIBLE" << nl;
+        return;
+    }
+
+    vi path;
+    for (int cur = n; cur != -1; cur = parent[cur]) {
+        path.pb(cur);
+    }
+    reverse(all(path));
+
+    cout << path.size() << nl;
+    vout(path);
 }
 
 //======================================== Driver Code ========================================//
