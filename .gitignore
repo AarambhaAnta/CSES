@@ -111,3 +111,7 @@ yarn-error.log*
 # Competitive programming specific
 *.ans
 *.res
+
+# Override: Force ignore .vscode directories and their contents
+.vscode/
+**/.vscode/
