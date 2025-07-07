@@ -1,6 +1,6 @@
 # CSES Problem Set Solutions
 
-This repository contains my solutions to problems from the [CSES Problem Set](https://cses.fi/problemset/), a collection of competitive programming practice problems.
+This repository contains my solutions to problems from the [CSES Problem Set](http- 🟡 **Graph Algorithms**: 16/36 solved://cses.fi/problemset/), a collection of competitive programming practice problems.
 
 ## About CSES
 
@@ -66,11 +66,16 @@ The CSES Problem Set is a collection of algorithmic programming problems designe
 - [Message Route](https://cses.fi/problemset/task/1667) - [`Graph-Algorithms/Message_Route.cpp`](Graph-Algorithms/Message_Route.cpp)
 - [Building Teams](https://cses.fi/problemset/task/1668) - [`Graph-Algorithms/Building_Teams.cpp`](Graph-Algorithms/Building_Teams.cpp)
 - [Round Trip](https://cses.fi/problemset/task/1669) - [`Graph-Algorithms/Round_Trip.cpp`](Graph-Algorithms/Round_Trip.cpp)
+- [Round Trip II](https://cses.fi/problemset/task/1678) - [`Graph-Algorithms/Round_Trip_II.cpp`](Graph-Algorithms/Round_Trip_II.cpp)
 - [Monsters](https://cses.fi/problemset/task/1194) - [`Graph-Algorithms/Monsters.cpp`](Graph-Algorithms/Monsters.cpp)
 - [Shortest Routes I](https://cses.fi/problemset/task/1671) - [`Graph-Algorithms/Shortest_Routes_I.cpp`](Graph-Algorithms/Shortest_Routes_I.cpp)
 - [Shortest Routes II](https://cses.fi/problemset/task/1672) - [`Graph-Algorithms/Shortest_Routes_II.cpp`](Graph-Algorithms/Shortest_Routes_II.cpp)
 - [High Score](https://cses.fi/problemset/task/1673) - [`Graph-Algorithms/High_Score.cpp`](Graph-Algorithms/High_Score.cpp)
 - [Flight Discount](https://cses.fi/problemset/task/1195) - [`Graph-Algorithms/Flight_Discount.cpp`](Graph-Algorithms/Flight_Discount.cpp)
+- [Cycle Finding](https://cses.fi/problemset/task/1197) - [`Graph-Algorithms/Cycle_Finding.cpp`](Graph-Algorithms/Cycle_Finding.cpp)
+- [Flight Routes](https://cses.fi/problemset/task/1196) - [`Graph-Algorithms/Flight_Routes.cpp`](Graph-Algorithms/Flight_Routes.cpp)
+- [Course Schedule](https://cses.fi/problemset/task/1679) - [`Graph-Algorithms/Course_Schedule.cpp`](Graph-Algorithms/Course_Schedule.cpp)
+- [Longest Flight Route](https://cses.fi/problemset/task/1680) - [`Graph-Algorithms/Longest_Flight_Route.cpp`](Graph-Algorithms/Longest_Flight_Route.cpp)
 
 ## How to Build and Run
 
