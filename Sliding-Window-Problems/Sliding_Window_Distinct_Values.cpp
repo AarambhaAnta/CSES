@@ -41,7 +41,7 @@ void solve() {
             ++tail;
         }
     }
-    for (int i = 0; i < res.size(); i++) {
+    for (int i = 0; i < (int)res.size(); i++) {
         cout << res[i] << " ";
     }
     cout << endl;
