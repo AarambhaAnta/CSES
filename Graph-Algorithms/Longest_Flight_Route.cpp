@@ -1,175 +1,56 @@
-
 #include <bits/stdc++.h>
-using namespace std;
-
-// Type Aliases
-#define int long long
-#define nl '\n'
-#define sp ' '
-#define ff first
-#define ss second
-#define pb push_back
-#define mp make_pair
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
+using namespace std;
+using namespace __gnu_pbds;
+template <typename T>
+using ordered_set =
+    tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// I/O Fast
-void fastIO() {
-    ios_base::sync_with_stdio(false);
+typedef long long ll;
+
+signed main() {
+    ios::sync_with_stdio(0);
     cin.tie(nullptr);
-}
 
-// Debug Macro
-#ifndef ONLINE_JUDGE
-#define debug(x)                                                                                   \
-    cerr << #x << " = ";                                                                           \
-    _print(x);                                                                                     \
-    cerr << nl;
-#else
-#define debug(x)
-#endif
-
-// Debug Utilities
-void _print(int x) {
-    cerr << x;
-}
-void _print(string x) {
-    cerr << x;
-}
-void _print(char x) {
-    cerr << x;
-}
-void _print(bool x) {
-    cerr << (x ? "true" : "false");
-}
-void _print(double x) {
-    cerr << x;
-}
-template <typename T, typename V>
-void _print(pair<T, V> p) {
-    cerr << "{";
-    _print(p.ff);
-    cerr << ",";
-    _print(p.ss);
-    cerr << "}";
-}
-template <typename T>
-void _print(vector<T> v) {
-    cerr << "[";
-    for (T i : v) {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-}
-template <typename T>
-void _print(set<T> s) {
-    cerr << "{";
-    for (T i : s) {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "}";
-}
-
-// Constants
-const int MOD = 1e9 + 7;
-const int INF = 1e18;
-const double EPS = 1e-9;
-const array<int, 4> dx = {0, 1, 0, -1};
-const array<int, 4> dy = {1, 0, -1, 0};
-const array<char, 4> dir = {'R', 'D', 'L', 'U'};
-
-// Aliases
-using vi = vector<int>;
-using vb = vector<bool>;
-using pii = pair<int, int>;
-using vii = vector<pii>;
-
-// Input / Output helpers
-template <typename T>
-void vin(vector<T>& a) {
-    for (auto& x : a)
-        cin >> x;
-}
-template <typename T>
-void vout(const vector<T>& a) {
-    for (auto x : a)
-        cout << x << sp;
-    cout << nl;
-}
-
-
-//======================================== Solution Logic ========================================//
-
-const int maxn = 1e5 + 5;
-int n, m;
-vi g[maxn];
-int dis[maxn], parent[maxn], indeg[maxn];
-void khans_algo() {
-    vi topo;
-    topo.reserve(n);
-    queue<int> q;
-    for (int i = 1; i <= n; i++) {
-        if (indeg[i] == 0)
-            q.push(i);
+    ll n, m;
+    cin >> n >> m;
+    vector<vector<ll>> g(n + 1);
+    for (ll i = 0; i < m; i++) {
+        ll u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
     }
 
-    fill(dis, dis + n + 1, -INF);
-    fill(parent, parent + n + 1, -1);
-    dis[1] = 1;
-
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
-        topo.pb(u);
-        for (int v : g[u]) {
-            if (--indeg[v] == 0) {
-                q.push(v);
-            }
-            if (dis[u] != -INF && dis[v] < dis[u] + 1) {
-                dis[v] = dis[u] + 1;
-                parent[v] = u;
+    ll inf = 1e18;
+    vector<bool> visited(n + 1, false);
+    vector<ll> parent(n + 1), longest(n + 1);
+    function<ll(ll)> dfs = [&](ll u) {
+        if (visited[u])
+            return longest[u];
+        visited[u] = true;
+        longest[u] = -inf;
+        if(u==n)
+            return longest[n] = 1;
+        for (ll v : g[u]) {
+            dfs(v);
+            if (longest[v] + 1 > longest[u]) {
+                longest[u] = longest[v] + 1;
+                parent[u] = v;
             }
         }
-    }
-}
-void test() {
-    // your solution for each testcase
-    cin >> n >> m;
-    fill(indeg, indeg + n + 1, 0);
+        return longest[u];
+    };
 
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-        g[u].pb(v);
-        indeg[v]++;
+    if (dfs(1) < 0) {
+        cout << "IMPOSSIBLE\n";
+        return 0;
     }
 
-    khans_algo();
-
-
-    if (dis[n] == -INF) {
-        cout << "IMPOSSIBLE" << nl;
-        return;
+    cout << dfs(1) << "\n";
+    for (ll at = 1; at != 0; at = parent[at]) {
+        cout << at << " ";
     }
-
-    vi path;
-    for (int cur = n; cur != -1; cur = parent[cur]) {
-        path.pb(cur);
-    }
-    reverse(all(path));
-
-    cout << path.size() << nl;
-    vout(path);
-}
-
-//======================================== Driver Code ========================================//
-signed main() {
-    fastIO();
-    int tc = 1;
-    // cin >> tc; // Uncomment for multiple test cases
-    while (tc--)
-        test();
     return 0;
 }
