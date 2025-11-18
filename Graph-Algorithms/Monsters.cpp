@@ -1,212 +1,102 @@
-
 #include <bits/stdc++.h>
-using namespace std;
-
-// Type Aliases
-#define int long long
-#define nl '\n'
-#define sp ' '
-#define ff first
-#define ss second
-#define pb push_back
-#define mp make_pair
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
+using namespace std;
+using namespace __gnu_pbds;
+template <typename T>
+using ordered_set =
+    tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// I/O Fast
-void fastIO() {
-    ios_base::sync_with_stdio(false);
+signed main() {
+    ios::sync_with_stdio(0);
     cin.tie(nullptr);
-}
 
-// Debug Macro
-#ifndef ONLINE_JUDGE
-#define debug(x)                                                                                   \
-    cerr << #x << " = ";                                                                           \
-    _print(x);                                                                                     \
-    cerr << nl;
-#else
-#define debug(x)
-#endif
-
-// Debug Utilities
-void _print(int x) {
-    cerr << x;
-}
-void _print(string x) {
-    cerr << x;
-}
-void _print(char x) {
-    cerr << x;
-}
-void _print(bool x) {
-    cerr << (x ? "true" : "false");
-}
-void _print(double x) {
-    cerr << x;
-}
-template <typename T, typename V>
-void _print(pair<T, V> p) {
-    cerr << "{";
-    _print(p.ff);
-    cerr << ",";
-    _print(p.ss);
-    cerr << "}";
-}
-template <typename T>
-void _print(vector<T> v) {
-    cerr << "[";
-    for (T i : v) {
-        _print(i);
-        cerr << " ";
+    int n, m;
+    cin >> n >> m;
+    vector<string> grid(n);
+    for (int i = 0; i < n; i++) {
+        cin >> grid[i];
     }
-    cerr << "]";
-}
-template <typename T>
-void _print(set<T> s) {
-    cerr << "{";
-    for (T i : s) {
-        _print(i);
-        cerr << " ";
+
+    queue<pair<int, int>> q;
+    int dx[] = {-1, 1, 0, 0};
+    int dy[] = {0, 0, -1, 1};
+    char dir[] = {'U', 'D', 'L', 'R'};
+    int inf = 1e9;
+    pair<int, int> src = {-1, -1};
+    optional<pair<int, int>> des;
+    vector<vector<int>> mDis(n, vector<int>(m, inf)), pDis(n, vector<int>(m, inf));
+    vector<vector<pair<int, int>>> parent(n, vector<pair<int, int>>(m, {-1, -1}));
+    vector<vector<char>> last_char(n, vector<char>(m));
+
+    auto is_valid = [&](int nx, int ny) -> bool { return nx >= 0 && ny >= 0 && nx < n && ny < m; };
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (grid[i][j] == 'M') {
+                q.push({i, j});
+                mDis[i][j] = 0;
+            }
+            if (grid[i][j] == 'A') {
+                src = {i, j};
+                pDis[i][j] = 0;
+            }
+        }
     }
-    cerr << "}";
-}
+    // Monsters
 
-// Constants
-const int MOD = 1e9 + 7;
-const int INF = 1e18;
-const double EPS = 1e-9;
-const array<int, 4> dx = {0, 1, 0, -1};
-const array<int, 4> dy = {1, 0, -1, 0};
-const array<char, 4> dir = {'R', 'D', 'L', 'U'};
-
-// Aliases
-using vi = vector<int>;
-using vb = vector<bool>;
-using pii = pair<int, int>;
-using vii = vector<pii>;
-
-// Input / Output helpers
-template <typename T>
-void vin(vector<T>& a) {
-    for (auto& x : a)
-        cin >> x;
-}
-template <typename T>
-void vout(const vector<T>& a) {
-    for (auto x : a)
-        cout << x << sp;
-    cout << nl;
-}
-
-
-//======================================== Solution Logic ========================================//
-
-const int N = 1e5 + 5;
-int n, m;
-vector<string> grid;
-vector<vi> personDis, monsterDis;
-vector<vii> parent;
-queue<pii> monster, person;
-
-void mssp(queue<pii>& q, vector<vi>& dis, bool isPerson = false) {
     while (!q.empty()) {
-        pii node = q.front();
-        int x = node.ff;
-        int y = node.ss;
+        auto [x, y] = q.front();
         q.pop();
         for (int i = 0; i < 4; i++) {
-            int ni = x + dx[i], nj = y + dy[i];
-            if (ni >= 0 && nj >= 0 && ni < n && nj < m && grid[ni][nj] != '#' &&
-                dis[ni][nj] > dis[x][y] + 1) {
-                dis[ni][nj] = dis[x][y] + 1;
-                q.push({ni, nj});
-                if (isPerson) {
-                    parent[ni][nj] = {x, y};
+            int nx = x + dx[i], ny = y + dy[i];
+            if (is_valid(nx, ny) && grid[nx][ny] != '#') {
+                if (mDis[nx][ny] > mDis[x][y] + 1) {
+                    mDis[nx][ny] = mDis[x][y] + 1;
+                    q.push({nx, ny});
                 }
             }
         }
     }
-}
-void test() {
-    // your solution for each testcase
-    cin >> n >> m;
-    personDis.assign(n, vi(m, INF));
-    monsterDis.assign(n, vi(m, INF));
-    parent.assign(n, vii(m, {-1, -1}));
-    pii start;
-    for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        grid.pb(s);
-        for (int j = 0; j < m; j++) {
-            if (s[j] == 'M') {
-                monsterDis[i][j] = 0;
-                monster.push({i, j});
-            } else if (s[j] == 'A') {
-                start = {i, j};
-                personDis[i][j] = 0;
-                person.push({i, j});
-            }
-        }
-    }
 
-    mssp(monster, monsterDis);
-    mssp(person, personDis, true);
-
-    pii exit = {-1, -1};
-    for (int i = 0; i < n; i++) {
-        for (int j : {0ll, m - 1}) {
-            if (grid[i][j] != '#' && personDis[i][j] < monsterDis[i][j]) {
-                exit = {i, j};
+    // Person
+    q.push(src);
+    while (!q.empty()) {
+        auto [x, y] = q.front();
+        if (x == 0 || y == 0 || x == n - 1 || y == m - 1) {
+            if (pDis[x][y] < mDis[x][y]) {
+                des = {x, y};
                 break;
             }
         }
-        if (exit.ff != -1)
-            break;
-    }
-    if (exit.ff == -1) {
-        for (int j = 0; j < m; j++) {
-            for (int i : {0ll, n - 1}) {
-                if (grid[i][j] != '#' && personDis[i][j] < monsterDis[i][j]) {
-                    exit = {i, j};
-                    break;
-                }
-            }
-            if (exit.ff != -1)
-                break;
-        }
-    }
-
-    if (exit.ff == -1) {
-        cout << "NO" << nl;
-        return;
-    }
-
-    cout << "YES" << nl;
-
-    pii cur = exit;
-    string path;
-    while (cur != start) {
-        pii par = parent[cur.ff][cur.ss];
+        q.pop();
         for (int i = 0; i < 4; i++) {
-            if (par.ff + dx[i] == cur.ff && par.ss + dy[i] == cur.ss) {
-                path.pb(dir[i]);
-                break;
+            int nx = x + dx[i], ny = y + dy[i];
+            if (is_valid(nx, ny) && grid[nx][ny] != '#') {
+                if (pDis[nx][ny] > pDis[x][y] + 1) {
+                    pDis[nx][ny] = pDis[x][y] + 1;
+                    parent[nx][ny] = {x, y};
+                    last_char[nx][ny] = dir[i];
+                    q.push({nx, ny});
+                }
             }
         }
-        cur = par;
     }
-    reverse(all(path));
-    cout << path.size() << nl << path << nl;
-}
 
-//======================================== Driver Code ========================================//
-signed main() {
-    fastIO();
-    int tc = 1;
-    // cin >> tc; // Uncomment for multiple test cases
-    while (tc--)
-        test();
+    if (!des) {
+        cout << "NO\n";
+        return 0;
+    }
+
+    string s = "";
+    pair<int, int> cur = *des;
+    while(cur!=src){
+        auto [x, y] = cur;
+        s += last_char[x][y];
+        cur = parent[x][y];
+    }
+    reverse(all(s));
+    cout << "YES\n" << s.size() << '\n' << s << endl;
     return 0;
 }
