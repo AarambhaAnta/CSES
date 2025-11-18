@@ -1,167 +1,64 @@
-
 #include <bits/stdc++.h>
-using namespace std;
-
-// Type Aliases
-#define int long long
-#define nl '\n'
-#define sp ' '
-#define ff first
-#define ss second
-#define pb push_back
-#define mp make_pair
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
+using namespace std;
+using namespace __gnu_pbds;
+template <typename T>
+using ordered_set =
+    tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// I/O Fast
-void fastIO() {
-    ios_base::sync_with_stdio(false);
+typedef long long ll;
+
+signed main() {
+    ios::sync_with_stdio(0);
     cin.tie(nullptr);
-}
 
-// Debug Macro
-#ifndef ONLINE_JUDGE
-#define debug(x)                                                                                   \
-    cerr << #x << " = ";                                                                           \
-    _print(x);                                                                                     \
-    cerr << nl;
-#else
-#define debug(x)
-#endif
-
-// Debug Utilities
-void _print(int x) {
-    cerr << x;
-}
-void _print(string x) {
-    cerr << x;
-}
-void _print(char x) {
-    cerr << x;
-}
-void _print(bool x) {
-    cerr << (x ? "true" : "false");
-}
-void _print(double x) {
-    cerr << x;
-}
-template <typename T, typename V>
-void _print(pair<T, V> p) {
-    cerr << "{";
-    _print(p.ff);
-    cerr << ",";
-    _print(p.ss);
-    cerr << "}";
-}
-template <typename T>
-void _print(vector<T> v) {
-    cerr << "[";
-    for (T i : v) {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-}
-template <typename T>
-void _print(set<T> s) {
-    cerr << "{";
-    for (T i : s) {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "}";
-}
-
-// Constants
-const int MOD = 1e9 + 7;
-const int INF = 1e18;
-const double EPS = 1e-9;
-const array<int, 4> dx = {0, 1, 0, -1};
-const array<int, 4> dy = {1, 0, -1, 0};
-const array<char, 4> dir = {'R', 'D', 'L', 'U'};
-
-// Aliases
-using vi = vector<int>;
-using vb = vector<bool>;
-using pii = pair<int, int>;
-using vii = vector<pii>;
-
-// Input / Output helpers
-template <typename T>
-void vin(vector<T>& a) {
-    for (auto& x : a)
-        cin >> x;
-}
-template <typename T>
-void vout(const vector<T>& a) {
-    for (auto x : a)
-        cout << x << sp;
-    cout << nl;
-}
-
-
-//======================================== Solution Logic ========================================//
-
-const int maxn = 1e5 + 5;
-int n, m;
-vi g[maxn];
-int vis[maxn], parent[maxn];
-vi cycle;
-void dfs(int node, int par) {
-    vis[node] = 2;
-    parent[node] = par;
-
-    for (int v : g[node]) {
-        if (vis[v] == 1) {
-            dfs(v, node);
-        } else if (vis[v] == 2) {
-            if (cycle.empty()) {
-                int cur = node;  // Started from `node`
-                while (cur != v) {
-                    cycle.pb(cur);
-                    cur = parent[cur];
-                }
-                cycle.pb(v);
-                cycle.pb(node);  // Ended at `node`
-                reverse(all(cycle));
-            }
-        }
-    }
-    vis[node] = 3;
-}
-void test() {
-    // your solution for each testcase
+    int n, m;
     cin >> n >> m;
+    vector<vector<int>> adj(n + 1);
     for (int i = 0; i < m; i++) {
         int u, v;
         cin >> u >> v;
-        g[u].pb(v);
+        adj[u].push_back(v);
     }
 
-    fill(vis, vis + n + 1, 1);
-    fill(parent, parent + n + 1, -1);
+    vector<int> path;
+    vector<int> visited(n + 1), parent(n + 1);
+    function<void(int, int)> dfs = [&](int src, int par) {
+        visited[src] = 1;
+        parent[src] = par;
+        for (int v : adj[src]) {
+            if (visited[v] == 0) {
+                dfs(v, src);
+            } else if (visited[v] == 1) {
+                if (path.empty()) {
+                    for (int at = src;; at = parent[at]) {
+                        path.push_back(at);
+                        if (at == v)
+                            break;
+                    }
+                    path.push_back(src);
+                    reverse(all(path));
+                }
+            }
+        }
+        visited[src] = 2;
+    };
 
     for (int i = 1; i <= n; i++) {
-        if (vis[i] == 1 && cycle.empty()) {
-            dfs(i, -1);
+        if (visited[i] == 0) {
+            dfs(i, 0);
         }
     }
-
-
-    if (cycle.size() > 1) {
-        cout << cycle.size() << nl;
-        vout(cycle);
-    } else {
-        cout << "IMPOSSIBLE" << nl;
+    if (!path.size()) {
+        cout << "IMPOSSIBLE\n";
+        return 0;
     }
-}
+    cout << path.size() << endl;
+    for (int p : path) {
+        cout << p << " ";
+    }
 
-//======================================== Driver Code ========================================//
-signed main() {
-    fastIO();
-    int tc = 1;
-    // cin >> tc; // Uncomment for multiple test cases
-    while (tc--)
-        test();
     return 0;
 }
