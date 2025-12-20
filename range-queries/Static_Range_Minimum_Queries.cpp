@@ -1,100 +1,75 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#define all(x) (x).begin(), (x).end()
 using namespace std;
-#define int long long
-const int INF = 1e18;
-
+using namespace __gnu_pbds;
 template <typename T>
-class SegmentTree {
-private:
-    vector<T> tree;
-    vector<T> arr;
-    int n;
+using ordered_set =
+    tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-    T operation(T a, T b) {
-        return min(a, b);
-    }
-    T identity() {
-        return INF;
-    }
-    void build(int node, int start, int end) {
-        if (start == end) {
-            tree[node] = arr[start];
-        } else {
-            int mid = (start + end) / 2;
-            build(2 * node, start, mid);
-            build(2 * node + 1, mid + 1, end);
-            tree[node] = operation(tree[2 * node], tree[2 * node + 1]);
-        }
-    }
-    T query(int node, int start, int end, int l, int r) {
-        if (r < start || end < l) {
-            return identity();
-        }
-        if (l <= start && end <= r) {
-            return tree[node];
-        }
-        int mid = (start + end) / 2;
-        T p1 = query(2 * node, start, mid, l, r);
-        T p2 = query(2 * node + 1, mid + 1, end, l, r);
-        return operation(p1, p2);
-    }
-    void update(int node, int start, int end, int idx, T val) {
-        if (start == end) {
-            arr[idx] = val;
-            tree[node] = val;
-        } else {
-            int mid = (start + end) / 2;
-            if (idx <= mid) {
-                update(2 * node, start, mid, idx, val);
-            } else {
-                update(2 * node + 1, mid + 1, end, idx, val);
-            }
-            tree[node] = operation(tree[2 * node], tree[2 * node + 1]);
-        }
-    }
+typedef long long ll;
+const ll inf = 2e18;
+
+class SegTree {
+private:
+    vector<ll> segArr;
+    vector<ll>* A;
 
 public:
-    SegmentTree(vector<T>& input) {
-        arr = input;
-        n = arr.size();
-        tree.resize(4 * n);
-        build(1, 0, n - 1);
+    SegTree(int n, vector<ll>* ptr) {
+        segArr = vector<ll>(4 * n);
+        A = ptr;
     }
-    T query(int l, int r) {
-        return query(1, 0, n - 1, l, r);
-    }
-    void update(int idx, T val) {
-        update(1, 0, n - 1, idx, val);
-    }
-    vector<T> getArray() {
-        return arr;
-    }
-    void printTree() {
-        cout << "Segment Tree: ";
-        for (int i = 1; i < min(20, 4 * n); ++i) {
-            cout << tree[i] << " ";
+
+    void build(int node, int start, int end) {
+        if (start == end) {
+            segArr[node] = (*A)[start];
+            return;
         }
-        cout << "\n";
+        int mid = (start + end) / 2;
+        // left
+        build(2 * node, start, mid);
+        // right
+        build(2 * node + 1, mid + 1, end);
+        // merge
+        segArr[node] = min(segArr[2 * node], segArr[2 * node + 1]);
+    }
+
+    ll query(int node, int start, int end, int lq, int rq) {
+        if (start >= lq && end <= rq) {
+            return segArr[node];
+        }
+        if (start > rq || end < lq) {
+            return inf;
+        }
+
+        int mid = (start + end) / 2;
+
+        // left-right->merge
+        return min(query(2 * node, start, mid, lq, rq), query(2 * node + 1, mid + 1, end, lq, rq));
     }
 };
 
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+signed main() {
+    ios::sync_with_stdio(0);
+    cin.tie(nullptr);
 
     int n, q;
     cin >> n >> q;
-    vector<int> A(n);
-    for (int i = 0; i < n; i++) {
+    vector<ll> A(n + 1);
+    for (int i = 1; i <= n; i++) {
         cin >> A[i];
     }
 
-    SegmentTree<int> st(A);
-    for (int i = 0; i < q; i++) {
-        int a, b;
-        cin >> a >> b;
-        --a, --b;
-        cout << st.query(a, b) << "\n";
+    SegTree st(n + 1, &A);
+    st.build(1, 1, n);
+
+    int l, r;
+    while (q--) {
+        cin >> l >> r;
+        ll minVal = st.query(1, 1, n, l, r);
+        cout << minVal << '\n';
     }
 
     return 0;
